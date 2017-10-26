@@ -24,6 +24,8 @@ namespace ODataSample.Service.Models
             function.Parameter<int>("start").OptionalParameter = false;
             function.Parameter<int>("count").OptionalParameter = false;
 
+            businessType.Filter();
+
             this.EntitySet<Business>("businesses");
         }
     }

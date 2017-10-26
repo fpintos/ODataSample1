@@ -14,6 +14,7 @@ namespace ODataSample.Service.Controllers.EntitySets
     [ODataRoutePrefix("businesses")]
     public class BusinessesController : ODataController
     {
+        [EnableQuery]
         [ODataRoute]
         public IQueryable<Business> Get() =>
             Enumerable.Range(0, 5).Select(i =>

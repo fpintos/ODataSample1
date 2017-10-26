@@ -9,7 +9,7 @@ namespace ODataSample.Service.Models
     using System.ComponentModel.DataAnnotations;
     using System.Web.OData.Query;
 
-    [Filter]
+    [Filter(Disabled = true)]
     public class Appointment
     {
         [Key]
@@ -19,6 +19,7 @@ namespace ODataSample.Service.Models
             set;
         }
 
+        [Filter]
         public string Subject
         {
             get;

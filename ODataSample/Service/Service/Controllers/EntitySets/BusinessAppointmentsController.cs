@@ -10,6 +10,7 @@ namespace ODataSample.Service.Controllers.EntitySets
     using System.Web.OData.Routing;
     using ODataSample.Service.Models;
     using System.Web.OData;
+    using System.Web.OData.Query;
 
     [ODataRoutePrefix("businesses({BusinessId})/appointments")]
     public class BusinessAppointmentsController : ODataController
@@ -17,11 +18,19 @@ namespace ODataSample.Service.Controllers.EntitySets
         public string BusinessId => this.GetUrlParameter();
 
         [ODataRoute]
-        public IQueryable<Appointment> Get() =>
-            Enumerable.Range(0, 5).Select(i =>
-                new Appointment
-                {
-                    Id = BusinessId + "." + i.ToString(),
-                }).AsQueryable();
+        public IQueryable<Appointment> Get(ODataQueryOptions<Appointment> options)
+        {
+            new EnableQueryAttribute().ValidateQuery(this.ActionContext.Request, options);
+            return Enumerable.Range(0, 5)
+                .Select(
+                    i =>
+                        new Appointment
+                        {
+                            Id = this.BusinessId + "." + i.ToString(),
+                            Subject = "Subject for " + this.BusinessId + "." + i.ToString(),
+                            DontFilterOnThis = options.Filter?.RawValue
+                        })
+                .AsQueryable();
+        }
     }
 }
